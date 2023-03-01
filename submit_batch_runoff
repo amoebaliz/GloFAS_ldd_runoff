@@ -1,0 +1,11 @@
+#!/bin/bash
+
+
+for yr in {1993..2019}; do
+    echo $yr
+
+    #python write_runoff_glofas_batch.py $yr >  /dev/null &
+    python write_runoff_glofas_dis_batch.py $yr >  /dev/null &          
+done
+
+
