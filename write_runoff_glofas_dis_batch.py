@@ -164,6 +164,7 @@ def write_runoff(glofas, hgrid, coast_mask, out_file):
 
 
 if __name__ == '__main__':
+    ## Adapted from code originally developped by Andrew C. Ross 
     # Determine coastal points in NEP domain
     ocn_mask = xarray.open_dataarray(<MOM6 OCEAN MASK FILE STRING>).values.astype(bool)
     stencil_sum = 0 * ocn_mask
