@@ -13,10 +13,10 @@ xesmf
 
 ## Input Requirements:
 GloFAS reanalysis output (netCDF files - recommend spatial subset for region of interest): 
-    https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-historical?tab=overview
+    https://ewds.climate.copernicus.eu/datasets/cems-glofas-historical?tab=overview
 
 GloFAS ldd map (netCDF file):
-https://confluence.ecmwf.int/display/CEMS/Auxiliary+Data?preview=%2F242067380%2F304227214%2Fldd_glofas.nc
+https://confluence.ecmwf.int/download/attachments/242067380/ldd_glofas_v4_0.nc?version=1&modificationDate=1669994937993&api=v2
 
 MOM6 ocean_hgrid (netcdf file)
 
