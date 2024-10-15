@@ -29,11 +29,10 @@ def update_stencil_sum(ocean_mask):
 
 def get_glofas_pour_points():
     ldd_modified = copy.deepcopy(ldd)
-    # editing pour points along map seam in Russia at date line. 
-    # Not sure if these are the best points to change or what happens with this runoff
-    
-    ldd_modified[168,299:301]=1
-    ldd_modified[132,299]=1
+    # GloFAS VERSION 4: editing pour points along map seam in Russia Chukotka Region at date line.
+    lat_idx = np.where(np.round(glofas_lat,3) == 68.875)[0][0] 
+    lon_idx = np.where(np.round(glofas_lon,3) == 180.025)[0][0]
+    ldd_modified[lat_idx,lon_idx]=1 # change from 5 to stop advancing halo point 
     
     glofas_ocean_mask = np.isnan(ldd)
 
@@ -185,7 +184,6 @@ if __name__ == '__main__':
     y=int(sys.argv[1])
     # GloFAS 3.1 subset to model region:
     files = [f'<GOFAS FILE STRING CONTAINING YEAR y>' for y in [y-1, y, y+1]]
-    #files = [f'/work/Liz.Drenkard/mom6/nep_10km/setup/runoff/ncks_glofas/glofas_subset_{y}.nc' for y in [y-1, y]] # for last year of GloFAS
     glofas = (
          xarray.open_mfdataset(files, combine='by_coords')
          .rename({'latitude': 'lat', 'longitude': 'lon'})
@@ -195,8 +193,9 @@ if __name__ == '__main__':
     glofas_lat = glofas['lat'].values 
     glofas_lon = glofas['lon'].values
     glofas_lon[glofas_lon<0]=glofas_lon[glofas_lon<0]+360
-    glofas_latb = np.arange(glofas_lat[0]+.05, glofas_lat[-1]-.051, -.1)
-    glofas_lonb = np.arange(glofas_lon[0]-.05, glofas_lon[-1]+.051, .1) 
+    deg_incr = abs(np.unique(np.diff(glofas_lat))[0])
+    glofas_latb = np.arange(glofas_lat[0] + deg_incr/2., glofas_lat[-1]-deg_incr, -deg_incr) 
+    glofas_lonb = np.arange(glofas_lon[0] - deg_incr/2., glofas_lon[-1]+deg_incr, deg_incr)
     glo_lons,glo_lats = np.meshgrid(glofas_lon,glofas_lat) 
     
     out_file = f'<OUTPUT FILE STRING>'
